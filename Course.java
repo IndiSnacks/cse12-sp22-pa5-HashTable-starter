@@ -1,7 +1,20 @@
+/**
+ * Name: Sahil Gathe
+ * ID: A16840774
+ * Email: sgathe@ucsd.edu
+ * Sources used:Tutors, Zybooks, and Lecture Slides
+ * 
+ * This file implents the student object. This object repersents a course and hold the follow data values. 
+ * The courses capacity, department, number & description.
+ */
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
+/**
+ * This class implments the course object which repersents a college course
+ */
 public class Course {
     HashSet<Student> enrolled;
     private final int capacity;
@@ -9,57 +22,135 @@ public class Course {
     private final String number;
     private final String description;
 
+    /**
+     * Constructor for the Course class
+     * @param department
+     * @param number
+     * @param description
+     * @param capacity
+     */
     public Course(String department, String number, String description, 
-        int capacity){}
-
+        int capacity){
+            if(department == null || number == null || description == null || capacity < 0 ){
+                throw new IllegalArgumentException("Crouse Paramaters are null");
+            }
+            else{
+                this.department = department;
+                this.number = number;
+                this.description = description;
+                this.capacity = capacity;
+            }
+        }
+    
+    /**
+     * @return the department that the course belongs to
+     */
     public String getDepartment(){
-        return null;
+        return this.department;
     }
 
+    /**
+     * @return the course number for the course
+     */
     public String getNumber(){
-        return null;
+        return this.number;
     }
 
+    /**
+     * @return the course description
+     */
     public String getDescription(){
-        return null;
+        return this.description;
     }
 
+    /**
+     * @return the description of the course
+     */
     public int getCapacity(){
-        return 0;
+        return this.capacity;
     }
 
+    /**
+     *  enrolls a student into a course by inserting the student object to the enrolled Hashset
+     * @param student a student object 
+     * @return true if the student is enrolled
+     *         false if the student isn't enrolled
+     */
     public boolean enroll(Student student) {
-        return false;
+        boolean enroll = false;
+        if(student == null){
+            throw new IllegalArgumentException("Enroll student is null");
+        }
+        else{
+            if(!this.isFull() && !this.getStudents().contains(student)){
+                enrolled.add(student);
+                enroll = true;
+            }
+        }
+        return enroll;
     }
 
+    /**
+     *  unenrolls a stduent forma course by removing them form the enrolled Hashmap
+     * @param student
+     * @return true if the student is removed 
+     *         false if the student isn't removed
+     */
     public boolean unenroll(Student student) {
-        return false;
+        if(enrolled.contains(student)){
+            enrolled.remove(student);
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
-    public void cancel() {}
+    /**
+     * Clears the course Hashmap
+     */
+    public void cancel() {
+        enrolled.clear();
+    }
 
+    /**
+     * @return true if the course is full
+     *          false if the course isn't full
+     */
     public boolean isFull() {
-        return false;
+        if(enrolled.size() == capacity){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public int getEnrolledCount() {
-        return 0;
+        return enrolled.size();
     }
 
     public int getAvailableSeats() {
-        return 0;
+        return capacity - enrolled.size();
     }
 
     public HashSet<Student> getStudents() {
-        return null;
+        HashSet<Student> returnHash = (HashSet) enrolled.clone();
+        return returnHash;
     }
 
     public ArrayList<Student> getRoster() {
-        return null;
+        ArrayList<Student> rtnList = new ArrayList<>();
+        for(Student i: enrolled){
+            rtnList.add(i);
+        }
+        Collections.sort(rtnList);
+        return rtnList;
     }
 
     public String toString() {
-        return null;
+        String rtnString = department + " " + number + " " + "[" + capacity + "]" + "\n" + description;
+        return rtnString;
     }
 }
 
